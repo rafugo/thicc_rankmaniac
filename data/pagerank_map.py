@@ -13,7 +13,8 @@ for line in sys.stdin:
     rank = float(adjacency_row[0])
     # Update the old rank
     adjacency_row[1] = adjacency_row[0]
-
+    
+    # If there are neighbors, grab them, and the node's rank. 
     if len(adjacency_row) > 2:
         neighbors = adjacency_row[2:]
         contribution = alpha * rank / float(len(neighbors))
