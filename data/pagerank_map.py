@@ -1,5 +1,15 @@
 #!/usr/bin/env python
 
+import sys
+
+#
+# Just write out the line
+#
+
+for line in sys.stdin:
+    sys.stdout.write(line)
+
+
 # import sys
 
 # alpha = .85
@@ -28,12 +38,3 @@
 #         sys.stdout.write("%s\t%f" % (node, contribution) + "\n")
 
 #     sys.stdout.write("%s\t%s" % (node_id, adjacency_row) + "\n")
-
-import sys
-
-#
-# Just write out the line
-#
-
-for line in sys.stdin:
-    sys.stdout.write(line)
