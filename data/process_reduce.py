@@ -73,7 +73,8 @@ for line in sys.stdin:
 
 
 # once we read in all the output, determine if we stop
-if change < 10:
+if change <= 0.1:
+    
 
     top20 = sorted(top20, key=itemgetter(1))[::-1]
 
@@ -81,6 +82,8 @@ if change < 10:
         sys.stdout.write("FinalRank:" + str(top20[i][1]) + '\t' + \
                             str(top20[i][0]) + '\n')
 
+    sys.exit(str(change))
+    
 else:
     # output so we can restart
     for line in rows:
