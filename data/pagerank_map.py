@@ -9,6 +9,7 @@ for line in sys.stdin:
     l = line.strip().split("\t")
     node_id = l[0][7:]
     adjacency_row = l[1].split(",")
+    
     # If there are neighbors, grab them, and the node's rank. 
     if len(adjacency_row) > 2:
         neighbors = adjacency_row[2:]

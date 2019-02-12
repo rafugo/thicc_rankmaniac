@@ -17,17 +17,19 @@ for line in sys.stdin:
     # first iteration, set the node id
     if firstIter:
         previousNode = node_id
+        firstIter = False
+
 
     # if we just saw a new node, we gotta print what we have
-    elif previousNode != node_id:
-        # once done processing, multiply by alpha
-        columnSum = alpha * columnSum
+    if previousNode != node_id:
+        # once done processing, multiply by alpha and add 1 - alpha
+        columnSum = columnSum + (1 - alpha)
 
         # set as new rank (temporarily)
-        adjacency_row[0] = columnSum
+        adjacency_row[0] = str(columnSum)
 
         # create the output string
-        output = 'NodeId:' + previousNode + '\t' + str(adjacency_row) + '\n'
+        output = previousNode + '\t' + str(adjacency_row) + '\n'
 
         # emit the row
         sys.stdout.write(output)
@@ -37,9 +39,6 @@ for line in sys.stdin:
         columnSum = 0
         previousNode = node_id
 
-
-
-    firstIter = False
 
     # change value into a variable from a string
     value = ast.literal_eval(value)
@@ -52,14 +51,14 @@ for line in sys.stdin:
     else:
         columnSum += float(value)
 
-# once done processing, multiply by alpha
-columnSum = alpha * columnSum
+# once done processing, add the 1 - alpha
+columnSum = columnSum + (1 - alpha)
 
 # set as new rank (temporarily)
-adjacency_row[0] = columnSum
+adjacency_row[0] = str(columnSum)
 
 # create the output string
-output = 'NodeId:' + node_id + '\t' + str(adjacency_row) + '\n'
+output = node_id + '\t' + str(adjacency_row) + '\n'
 
 # emit the row
 sys.stdout.write(output)
