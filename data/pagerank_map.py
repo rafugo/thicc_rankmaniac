@@ -10,8 +10,9 @@ for line in sys.stdin:
     l = line.strip().split("\t")
     node_id = l[0][7:]
     adjacency_row = l[1].split(",")
+    adjacency_row[0] = float(adjacency_row[0])
     # Calculate the node's current rank
-    rank = float(adjacency_row[0])
+    rank = adjacency_row[0]
     # Update the old rank
     adjacency_row[1] = adjacency_row[0]
     
