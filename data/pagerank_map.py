@@ -9,12 +9,20 @@ for line in sys.stdin:
     l = line.strip().split("\t")
     node_id = l[0][7:]
     adjacency_row = l[1].split(",")
-    # If there are neighbors, grab them, and the node's rank. 
+    # Calculate the node's current rank
+    rank = float(adjacency_row[0])
+    # Update the old rank
+    adjacency_row[1] = adjacency_row[0]
+
     if len(adjacency_row) > 2:
         neighbors = adjacency_row[2:]
-        rank = float(adjacency_row[0])
         contribution = alpha * rank / float(len(neighbors))
-        for node in neighbors:
-            sys.stdout.write("%s\t%f" % (node, contribution) + "\n")
+    else:
+        neighbors = []
+        contribution = "ERROR"
+    for node in neighbors:
+        sys.stdout.write("%s\t%f" % (node, contribution) + "\n")
+
     sys.stdout.write("%s\t%s" % (node_id, adjacency_row) + "\n")
+
 
