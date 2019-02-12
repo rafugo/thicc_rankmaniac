@@ -106,7 +106,3 @@ for i in range(len(top20)):
 #     for line in rows:
 #         sys.stdout.write(line + '\n')
 
-
-
-
-
