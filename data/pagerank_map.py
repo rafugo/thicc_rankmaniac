@@ -3,6 +3,7 @@
 import sys
 
 alpha = .85
+n = 0
 
 for line in sys.stdin:
     # Split the line on the tab and grab id and the list that follows.
@@ -20,10 +21,13 @@ for line in sys.stdin:
         contribution = alpha * rank / float(len(neighbors))
     else:
         neighbors = []
-        contribution = "ERROR"
+        contribution = alpha
+        sys.stdout.write("%s\t%f" % (node_id, contribution) + "\n")
+        n += contribution
     for node in neighbors:
         sys.stdout.write("%s\t%f" % (node, contribution) + "\n")
+        n += contribution
 
     sys.stdout.write("%s\t%s" % (node_id, adjacency_row) + "\n")
-
+print(n)
 
