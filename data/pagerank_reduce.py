@@ -26,7 +26,7 @@ for line in sys.stdin:
         columnSum = columnSum + (1 - alpha)
 
         # set as new rank (temporarily)
-        adjacency_row[0] = str(columnSum)
+        adjacency_row[0] = columnSum
 
         # create the output string
         output = previousNode + '\t' + str(adjacency_row) + '\n'
@@ -46,16 +46,16 @@ for line in sys.stdin:
     # check if it's the row of the adjacency list
     # or a value to sum
     if isinstance(value, list):
-        adjacency_row = list(value)
+        adjacency_row = value
 
     else:
-        columnSum += float(value)
+        columnSum += value
 
 # once done processing, add the 1 - alpha
 columnSum = columnSum + (1 - alpha)
 
 # set as new rank (temporarily)
-adjacency_row[0] = str(columnSum)
+adjacency_row[0] = columnSum
 
 # create the output string
 output = node_id + '\t' + str(adjacency_row) + '\n'
