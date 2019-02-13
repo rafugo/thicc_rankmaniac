@@ -31,8 +31,8 @@ for line in sys.stdin:
         output = previousNode + '\t'
 
         # create the output string
-        for i in range(columnSum):
-            output += columnSum[i] + ','
+        for i in range(len(adjacency_row)):
+            output += adjacency_row[i] + ','
 
         output = output[:-1] + '\n'
 
@@ -47,7 +47,8 @@ for line in sys.stdin:
     # check if it's an adjacency row
     if value[0] == '|':
         # get it as a list
-        adjacency_row = value[1:].split()
+        value = value[1:]
+        adjacency_row = value.split(',')
 
     else:
         columnSum += float(value)
@@ -61,8 +62,8 @@ adjacency_row[0] = str(columnSum)
 output = previousNode + '\t'
 
 # create the output string
-for i in range(columnSum):
-    output += columnSum[i] + ','
+for i in range(len(adjacency_row)):
+    output += adjacency_row[i] + ','
 
 output = output[:-1] + '\n'
 
