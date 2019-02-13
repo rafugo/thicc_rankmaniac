@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import sys
-import ast
 from operator import itemgetter
 
 #
@@ -26,7 +25,18 @@ for line in sys.stdin:
     node_id, value = line.split("\t")
 
     # ideally this is a adjacency row
-    adjacency_row = ast.literal_eval(value)
+    #adjacency_row = ast.literal_eval(value)
+    # get rid of [
+    value1 = value.split('[')[1]
+    # get rid of ]
+    value2 = value1.split(']')[0]
+    # split into list
+    value_list = value2.split(',')
+    # make list values floats
+    for i in range(len(value_list)):
+        adjacency_row.append(float(value_list[i]))
+    
+    
 
     # get ranks
     new = adjacency_row[0]
@@ -73,7 +83,7 @@ for line in sys.stdin:
 
 
 # once we read in all the output, determine if we stop
-if change < 0.000001:
+if change < 10:
 
     top20 = sorted(top20, key=itemgetter(1))[::-1]
 
@@ -85,4 +95,3 @@ else:
     # output so we can restart
     for line in rows:
         sys.stdout.write(line + '\n')
-    sys.stderr.write('change: ' + str(change) + '\n')
