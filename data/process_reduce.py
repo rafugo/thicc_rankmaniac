@@ -28,7 +28,10 @@ for line in sys.stdin:
     value_list = value.split(',')
     # make list of values floats
     for i in range(len(value_list)):
-        adjacency_row.append(float(value_list[i]))
+        if i <= 1:
+            adjacency_row.append(float(value_list[i]))
+        else:
+            adjacency_row.append(int(value_list[i]))
     
     
 
