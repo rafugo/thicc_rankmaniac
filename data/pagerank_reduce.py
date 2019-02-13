@@ -39,6 +39,8 @@ for line in sys.stdin:
         columnSum = 0
         previousNode = node_id
 
+    # check if it's an adjacency row
+    if value[0] == '|':
 
     # change value into a variable from a string
     value = ast.literal_eval(value)
