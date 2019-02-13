@@ -81,7 +81,7 @@ for line in sys.stdin:
 
 
 # once we read in all the output, determine if we stop
-if change < 10:
+if change < 0.000000001:
     
     sys.stderr.write(str(change))
     top20 = sorted(top20, key=itemgetter(1))[::-1]
