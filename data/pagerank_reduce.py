@@ -34,7 +34,7 @@ for line in sys.stdin:
         for i in range(len(adjacency_row)):
             output += adjacency_row[i] + ','
 
-        output = output[:-1] + '\n'
+        output = output[:-1]
 
         # emit the row
         sys.stdout.write(output)
@@ -65,7 +65,7 @@ output = previousNode + '\t'
 for i in range(len(adjacency_row)):
     output += adjacency_row[i] + ','
 
-output = output[:-1] + '\n'
+output = output[:-1]
 
 # emit the row
 sys.stdout.write(output)
