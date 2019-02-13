@@ -4,7 +4,6 @@ import sys
 
 alpha = .85
 
-
 for line in sys.stdin:
     # Split the line on the tab and grab id and the list that follows.
     l = line.strip().split("\t")

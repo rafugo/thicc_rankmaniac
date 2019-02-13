@@ -26,10 +26,15 @@ for line in sys.stdin:
         columnSum = columnSum + (1 - alpha)
 
         # set as new rank (temporarily)
-        adjacency_row[0] = columnSum
+        adjacency_row[0] = str(columnSum)
+
+        output = previousNode + '\t'
 
         # create the output string
-        output = previousNode + '\t' + str(adjacency_row) + '\n'
+        for i in range(columnSum):
+            output += columnSum[i] + ','
+
+        output = output[:-1] + '\n'
 
         # emit the row
         sys.stdout.write(output)
@@ -41,26 +46,25 @@ for line in sys.stdin:
 
     # check if it's an adjacency row
     if value[0] == '|':
-
-    # change value into a variable from a string
-    value = ast.literal_eval(value)
-
-    # check if it's the row of the adjacency list
-    # or a value to sum
-    if isinstance(value, list):
-        adjacency_row = value
+        # get it as a list
+        adjacency_row = value[1:].split()
 
     else:
-        columnSum += value
+        columnSum += float(value)
 
-# once done processing, add the 1 - alpha
+# once done processing, multiply by alpha and add 1 - alpha
 columnSum = columnSum + (1 - alpha)
 
 # set as new rank (temporarily)
-adjacency_row[0] = columnSum
+adjacency_row[0] = str(columnSum)
+
+output = previousNode + '\t'
 
 # create the output string
-output = node_id + '\t' + str(adjacency_row) + '\n'
+for i in range(columnSum):
+    output += columnSum[i] + ','
+
+output = output[:-1] + '\n'
 
 # emit the row
 sys.stdout.write(output)
