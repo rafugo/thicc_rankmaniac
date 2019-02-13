@@ -24,12 +24,6 @@ for line in sys.stdin:
     # split string input
     node_id, value = line.split("\t")
 
-    # ideally this is a adjacency row
-    #adjacency_row = ast.literal_eval(value)
-    # get rid of [
-    value1 = value.split('[')[1]
-    # get rid of ]
-    value2 = value1.split(']')[0]
     # split into list
     value_list = value2.split(',')
     # make list values floats
