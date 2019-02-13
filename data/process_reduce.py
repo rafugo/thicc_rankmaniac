@@ -7,26 +7,26 @@ from operator import itemgetter
 # This program simply represents the identity function.
 #
 
-adjacency_row = []
+
 change = 0
 
 rows = []
 rowsNumbers = []
 
-counter = 0
 
 top20 = []
 mintuple = []
 
 for line in sys.stdin:
-    counter += 1
+    adjacency_row = []
 
     # split string input
     node_id, value = line.split("\t")
 
+
     # split into list
-    value_list = value2.split(',')
-    # make list values floats
+    value_list = value.split(',')
+    # make list of values floats
     for i in range(len(value_list)):
         adjacency_row.append(float(value_list[i]))
     
@@ -62,11 +62,12 @@ for line in sys.stdin:
     neighbors = ''
     for i in range(len(adjacency_row)):
         if i > 1:
-            neighbors += ',' + adjacency_row[i]
+            neighbors += ',' + str(adjacency_row[i])
 
     # keep track in case we need to keep going
     final_row = 'NodeId:' + node_id + '\t' + \
                             str(new) + ',' + str(old) + neighbors
+                            
 
     # for printing
     rows.append(final_row)
@@ -78,7 +79,8 @@ for line in sys.stdin:
 
 # once we read in all the output, determine if we stop
 if change < 10:
-
+    
+    sys.stderr.write(str(change))
     top20 = sorted(top20, key=itemgetter(1))[::-1]
 
     for i in range(len(top20)):
