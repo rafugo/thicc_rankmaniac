@@ -16,10 +16,8 @@ for line in sys.stdin:
         top20.append((idNum, 1.0))
 
 
-for i in range(len(top20)-1):
+for i in range(len(top20)):
     sys.stdout.write('FinalRank:' + str(top20[i][1]) + '\t' + str(top20[i][0]) + '\n')
-
-sys.stdout.write('FinalRank:' + str(top20[19][1]) + '\t' + str(top20[19][0]))
 
 
 # import sys
