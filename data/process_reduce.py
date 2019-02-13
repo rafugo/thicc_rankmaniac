@@ -10,14 +10,16 @@ for line in sys.stdin:
 
     node_id, value = line.split("\t")
 
-    idNum = node_id[0][7:]
+    idNum = node_id[7:]
 
     if counter <= 20:
         top20.append((idNum, 1.0))
 
 
-for i in range(len(top20)):
-    sys.stdout.write('FinalRank:' + str(top20[i][1]) + '\t' + top20[i][0])
+for i in range(len(top20)-1):
+    sys.stdout.write('FinalRank:' + str(top20[i][1]) + '\t' + str(top20[i][0]) + '\n')
+
+sys.stdout.write('FinalRank:' + str(top20[19][1]) + '\t' + str(top20[19][0]))
 
 
 # import sys

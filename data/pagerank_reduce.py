@@ -60,7 +60,7 @@
 #~ # create the output string
 #~ output = node_id + '\t' + str(adjacency_row) + '\n'
 
-#~ # emit the row
+# ~ # emit the row
 #~ sys.stdout.write(output)
 
 
