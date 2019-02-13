@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import sys
-import ast
 
 counter = 0
 top20 = []
