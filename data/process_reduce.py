@@ -28,7 +28,10 @@ for line in sys.stdin:
     value_list = value.split(',')
     # make list of values floats
     for i in range(len(value_list)):
-        adjacency_row.append(float(value_list[i]))
+        if i <= 1:
+            adjacency_row.append(float(value_list[i]))
+        else:
+            adjacency_row.append(int(value_list[i]))
     
     
 
@@ -78,7 +81,7 @@ for line in sys.stdin:
 
 
 # once we read in all the output, determine if we stop
-if change < 10:
+if change < 0.000000001:
     
     sys.stderr.write(str(change))
     top20 = sorted(top20, key=itemgetter(1))[::-1]
