@@ -8,8 +8,10 @@ for line in sys.stdin:
     node_id = l[0][7:]
     adjacency_row = l[1].split(",")
     adjacency_row[0] = float(adjacency_row[0])
+
     # Calculate the node's current rank
     rank = adjacency_row[0]
+
     # Update the old rank
     adjacency_row[1] = adjacency_row[0]
 
@@ -21,7 +23,7 @@ for line in sys.stdin:
     # take out last comma
     adj_row_str = adj_row_str[:-1]
     
-    # If there are neighbors, grab them, and the node's rank. 
+    # If there are neighbors, grab them, and the node's contribution to them 
     if len(adjacency_row) > 2:
         neighbors = adjacency_row[2:]
         contribution = rank / float(len(neighbors))

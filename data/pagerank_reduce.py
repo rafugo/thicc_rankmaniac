@@ -3,70 +3,53 @@
 import sys
 
 alpha = 0.85
-adjacency_row = []
-columnSum = 0
 
-previousNode = ''
-firstIter = True
+inputDict = {}
 
 for line in sys.stdin:
-    # split string input
-    node_id, value = line.split("\t")
+    # split the line
+    node_id, value = line.split('\t')
 
-    # first iteration, set the node id
-    if firstIter:
-        previousNode = node_id
-        firstIter = False
+    # add to dictionary
+    # if empty
+    if inputDict.get(node_id) == None:
+        inputDict[node_id] = [value]
 
-
-    # if we just saw a new node, we gotta print what we have
-    if previousNode != node_id:
-        # once done processing, multiply by alpha and add 1 - alpha
-        columnSum = alpha * columnSum + (1 - alpha)
-
-        # set as new rank (temporarily)
-        adjacency_row[0] = str(columnSum)
-
-        output = previousNode + '\t'
-
-        # create the output string
-        for i in range(len(adjacency_row)):
-            output += adjacency_row[i] + ','
-
-        output = output[:-1]
-
-        # emit the row
-        sys.stdout.write(output)
-
-        # clear the values
-        adjacency_row = []
-        columnSum = 0
-        previousNode = node_id
-
-    # check if it's an adjacency row
-    if value[0] == '|':
-        # get it as a list
-        value = value[1:]
-        adjacency_row = value.split(',')
-
+    # if not empty
     else:
-        columnSum += float(value)
+        inputDict[node_id].append(value)
 
-# once done processing, multiply by alpha and add 1 - alpha
-columnSum = alpha * columnSum + (1 - alpha)
+# sys.stderr.write(str(inputDict) + '\n')
 
-# set as new rank (temporarily)
-adjacency_row[0] = str(columnSum)
+# go through the dictionary, find the column sums and the adjacency row
+for key in inputDict:
+    adj_str = ''
+    columnSum = 0
 
-output = previousNode + '\t'
+    for value in inputDict[key]:
+        # check if adjacency row
+        if value[0] == '|':
+            adj_str = value[1:]
 
-# create the output string
-for i in range(len(adjacency_row)):
-    output += adjacency_row[i] + ','
+        # otherwise, add it
+        else:
+            columnSum += float(value)
 
-# chop off the comma
-output = output[:-1]
+    # update the new rank
+    adjacency_row = adj_str.split(',')
+    adjacency_row[0] = alpha * columnSum + (1 - alpha)
 
-# emit the row
-sys.stdout.write(output)
+    # create the output string
+    output = key + '\t'
+    for entry in adjacency_row:
+        output += str(entry) + ','
+    output = output[:-1]
+
+    sys.stdout.write(output)
+    
+
+
+
+
+
 

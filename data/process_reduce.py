@@ -14,8 +14,8 @@ rows = []
 rowsNumbers = []
 
 
-top500_new = []
-top500_old = []
+top50_new = []
+top50_old = []
 mintuple_new = []
 mintuple_old = []
 
@@ -44,9 +44,9 @@ for line in sys.stdin:
     # make row for sorting/finding top 20
     rowI = [node_id, new, old]
 
-    if len(top500_new) != 500:
-        top500_new.append(rowI)
-        top500_old.append(rowI)
+    if len(top50_new) != 500:
+        top50_new.append(rowI)
+        top50_old.append(rowI)
 
         if mintuple_new == []:
             mintuple_new = rowI
@@ -60,22 +60,22 @@ for line in sys.stdin:
 
     else:
         if mintuple_new[1] < rowI[1]:
-            top500_new.remove(mintuple_new)
-            top500_new.append(rowI)
+            top50_new.remove(mintuple_new)
+            top50_new.append(rowI)
             mintuple_new = rowI
 
             # get new min
-            for j in top500_new:
+            for j in top50_new:
                 if j[1] < mintuple_new[1]:
                     mintuple_new = j
         # do the same for the last top 20
         if mintuple_old[2] < rowI[2]:
-            top500_old.remove(mintuple_old)
-            top500_old.append(rowI)
+            top50_old.remove(mintuple_old)
+            top50_old.append(rowI)
             mintuple_old = rowI
 
             # get new min
-            for j in top500_old:
+            for j in top50_old:
                 if j[1] < mintuple_old[1]:
                     mintuple_old = j
 
@@ -97,15 +97,15 @@ for line in sys.stdin:
     # accumulate the change
     change += abs(new - old)
 
-top500_new = sorted(top500_new, key=itemgetter(1))[::-1]
-top500_old = sorted(top500_old, key=itemgetter(1))[::-1]
+top50_new = sorted(top50_new, key=itemgetter(1))[::-1]
+top50_old = sorted(top50_old, key=itemgetter(1))[::-1]
 
 # once we read in all the output, determine if we stop
-if top500_old == top500_new:
+if top50_old == top50_new:
 
-    for i in range(len(top500_new)):
-        sys.stdout.write("FinalRank:" + str(top500_new[i][1]) + '\t' + \
-                            str(top500_new[i][0]) + '\n')
+    for i in range(20):
+        sys.stdout.write("FinalRank:" + str(top50_new[i][1]) + '\t' + \
+                            str(top50_new[i][0]) + '\n')
 
 else:
     # output so we can restart
