@@ -3,53 +3,69 @@
 import sys
 
 alpha = 0.85
+adjacency_row = []
+columnSum = 0
 
-inputDict = {}
+previousNode = ''
+firstIter = True
 
 for line in sys.stdin:
-    # split the line
-    node_id, value = line.strip().split('\t')
+    # split string input
+    node_id, value = line.strip().split("\t")
 
-    # add to dictionary
-    # if empty
-    if inputDict.get(node_id) == None:
-        inputDict[node_id] = [value]
+    # first iteration, set the node id
+    if firstIter:
+        previousNode = node_id
+        firstIter = False
 
-    # if not empty
+
+    # if we just saw a new node, we gotta print what we have
+    if previousNode != node_id:
+        # once done processing, multiply by alpha and add 1 - alpha
+        columnSum = alpha * columnSum + (1 - alpha)
+
+        # set as new rank (temporarily)
+        adjacency_row[0] = str(columnSum)
+
+        output = previousNode + '\t'
+
+        # create the output string
+        for i in range(len(adjacency_row)):
+            output += adjacency_row[i] + ','
+
+        output = output[:-1] + '\n'
+
+        # emit the row
+        sys.stdout.write(output)
+
+        # clear the values
+        adjacency_row = []
+        columnSum = 0
+        previousNode = node_id
+
+    # check if it's an adjacency row
+    if value[0] == '|':
+        # get it as a list
+        value = value[1:]
+        adjacency_row = value.split(',')
+
     else:
-        inputDict[node_id].append(value)
+        columnSum += float(value)
 
-# sys.stderr.write(str(inputDict) + '\n')
+# once done processing, multiply by alpha and add 1 - alpha
+columnSum = alpha * columnSum + (1 - alpha)
 
-# go through the dictionary, find the column sums and the adjacency row
-for key in inputDict:
-    adj_str = ''
-    columnSum = 0
+# set as new rank (temporarily)
+adjacency_row[0] = str(columnSum)
 
-    for value in inputDict[key]:
-        # check if adjacency row
-        if value[0] == '|':
-            adj_str = value[1:]
+output = previousNode + '\t'
 
-        # otherwise, add it
-        else:
-            columnSum += float(value)
+# create the output string
+for i in range(len(adjacency_row)):
+    output += adjacency_row[i] + ','
 
-    # update the new rank
-    adjacency_row = adj_str.split(',')
-    adjacency_row[0] = alpha * columnSum + (1 - alpha)
+# chop off the comma
+output = output[:-1] + '\n'
 
-    # create the output string
-    output = key + '\t'
-    for entry in adjacency_row:
-        output += str(entry) + ','
-    output = output[:-1] + '\n'
-
-    sys.stdout.write(output)
-    
-
-
-
-
-
-
+# emit the row
+sys.stdout.write(output)
