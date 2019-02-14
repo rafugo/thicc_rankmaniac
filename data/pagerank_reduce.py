@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import sys
-import ast
 
 alpha = 0.85
 adjacency_row = []
@@ -23,7 +22,7 @@ for line in sys.stdin:
     # if we just saw a new node, we gotta print what we have
     if previousNode != node_id:
         # once done processing, multiply by alpha and add 1 - alpha
-        columnSum = columnSum + (1 - alpha)
+        columnSum = alpha * columnSum + (1 - alpha)
 
         # set as new rank (temporarily)
         adjacency_row[0] = str(columnSum)
@@ -54,7 +53,7 @@ for line in sys.stdin:
         columnSum += float(value)
 
 # once done processing, multiply by alpha and add 1 - alpha
-columnSum = columnSum + (1 - alpha)
+columnSum = alpha * columnSum + (1 - alpha)
 
 # set as new rank (temporarily)
 adjacency_row[0] = str(columnSum)
@@ -65,6 +64,7 @@ output = previousNode + '\t'
 for i in range(len(adjacency_row)):
     output += adjacency_row[i] + ','
 
+# chop off the comma
 output = output[:-1]
 
 # emit the row

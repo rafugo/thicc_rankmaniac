@@ -2,8 +2,6 @@
 
 import sys
 
-alpha = .85
-
 for line in sys.stdin:
     # Split the line on the tab and grab id and the list that follows.
     l = line.strip().split("\t")
@@ -26,14 +24,17 @@ for line in sys.stdin:
     # If there are neighbors, grab them, and the node's rank. 
     if len(adjacency_row) > 2:
         neighbors = adjacency_row[2:]
-        contribution = alpha * rank / float(len(neighbors))
-    else:
-        neighbors = []
-        contribution = alpha
-        sys.stdout.write("%s\t%f" % (node_id, contribution) + "\n")
+        contribution = rank / float(len(neighbors))
 
-    for node in neighbors:
-        sys.stdout.write("%s\t%f" % (node, contribution) + "\n")
+        # print out the contribution for each neighbor
+        for node in neighbors:
+            sys.stdout.write("%s\t%f" % (node, contribution) + "\n")
+
+    else:
+        # it will only contribute to itself
+        neighbors = []
+        sys.stdout.write("%s\t%f" % (node_id, float(1.0)) + "\n")
+
 
     # output the special adj row string
     sys.stdout.write("%s\t%s" % (node_id, adj_row_str) + "\n")
