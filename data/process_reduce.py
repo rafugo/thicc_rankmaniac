@@ -14,8 +14,10 @@ rows = []
 rowsNumbers = []
 
 
-top20 = []
-mintuple = []
+top500_new = []
+top500_old = []
+mintuple_new = []
+mintuple_old = []
 
 for line in sys.stdin:
     adjacency_row = []
@@ -40,26 +42,42 @@ for line in sys.stdin:
     old = adjacency_row[1]
 
     # make row for sorting/finding top 20
-    rowI = [node_id, new]
+    rowI = [node_id, new, old]
 
-    if len(top20) != 20:
-        top20.append(rowI)
+    if len(top500_new) != 500:
+        top500_new.append(rowI)
+        top500_old.append(rowI)
 
-        if mintuple == []:
-            mintuple = rowI
+        if mintuple_new == []:
+            mintuple_new = rowI
+            mintuple_old = rowI
 
-        elif mintuple[1] > rowI[1]:
-            mintuple = rowI
+        else:
+            if mintuple_new[1] > rowI[1]:
+                mintuple_new = rowI
+            if mintuple_old[2] > rowI[2]:
+                mintuple_old = rowI
 
-    elif mintuple[1] < rowI[1]:
-        top20.remove(mintuple)
-        top20.append(rowI)
-        mintuple = rowI
+    else:
+        if mintuple_new[1] < rowI[1]:
+            top500_new.remove(mintuple_new)
+            top500_new.append(rowI)
+            mintuple_new = rowI
 
-        # get new min
-        for j in top20:
-            if j[1] < mintuple[1]:
-                mintuple = j
+            # get new min
+            for j in top500_new:
+                if j[1] < mintuple_new[1]:
+                    mintuple_new = j
+        # do the same for the last top 20
+        if mintuple_old[2] < rowI[2]:
+            top500_old.remove(mintuple_old)
+            top500_old.append(rowI)
+            mintuple_old = rowI
+
+            # get new min
+            for j in top500_old:
+                if j[1] < mintuple_old[1]:
+                    mintuple_old = j
 
 
     neighbors = ''
@@ -79,16 +97,15 @@ for line in sys.stdin:
     # accumulate the change
     change += abs(new - old)
 
+top500_new = sorted(top500_new, key=itemgetter(1))[::-1]
+top500_old = sorted(top500_old, key=itemgetter(1))[::-1]
 
 # once we read in all the output, determine if we stop
-if change < 0.000000001:
-    
-    sys.stderr.write(str(change))
-    top20 = sorted(top20, key=itemgetter(1))[::-1]
+if top500_old == top500_new:
 
-    for i in range(len(top20)):
-        sys.stdout.write("FinalRank:" + str(top20[i][1]) + '\t' + \
-                            str(top20[i][0]) + '\n')
+    for i in range(len(top500_new)):
+        sys.stdout.write("FinalRank:" + str(top500_new[i][1]) + '\t' + \
+                            str(top500_new[i][0]) + '\n')
 
 else:
     # output so we can restart
