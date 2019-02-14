@@ -44,7 +44,8 @@ for line in sys.stdin:
     # make row for sorting/finding top 20
     rowI = [node_id, new, old]
 
-    if len(top50_new) != 50:
+
+    if len(top50_new) < 20:
         top50_new.append(rowI)
         top50_old.append(rowI)
 
@@ -97,8 +98,6 @@ for line in sys.stdin:
     rows.append(final_row)
     rowsNumbers.append(rowI)
 
-    # accumulate the change
-    change += abs(new - old)
 
 top50_new = sorted(top50_new, key=itemgetter(1))[::-1]
 top50_old = sorted(top50_old, key=itemgetter(1))[::-1]
