@@ -27,14 +27,14 @@ for line in sys.stdin:
 
 
     # split into list
-    value_list = value.split(',')
+    value_list = value.strip().split(',')
+
     # make list of values floats
     for i in range(len(value_list)):
         if i <= 1:
             adjacency_row.append(float(value_list[i]))
         else:
             adjacency_row.append(int(value_list[i]))
-    
     
 
     # get ranks
@@ -44,15 +44,17 @@ for line in sys.stdin:
     # make row for sorting/finding top 20
     rowI = [node_id, new, old]
 
-    if len(top50_new) != 500:
+    if len(top50_new) != 50:
         top50_new.append(rowI)
         top50_old.append(rowI)
 
+        # initialize the mintuples
         if mintuple_new == []:
             mintuple_new = rowI
             mintuple_old = rowI
 
         else:
+            # set new mintuples if the new value is smaller
             if mintuple_new[1] > rowI[1]:
                 mintuple_new = rowI
             if mintuple_old[2] > rowI[2]:
@@ -68,6 +70,7 @@ for line in sys.stdin:
             for j in top50_new:
                 if j[1] < mintuple_new[1]:
                     mintuple_new = j
+
         # do the same for the last top 20
         if mintuple_old[2] < rowI[2]:
             top50_old.remove(mintuple_old)
@@ -76,7 +79,7 @@ for line in sys.stdin:
 
             # get new min
             for j in top50_old:
-                if j[1] < mintuple_old[1]:
+                if j[2] < mintuple_old[2]:
                     mintuple_old = j
 
 

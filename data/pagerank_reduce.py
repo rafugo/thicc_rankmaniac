@@ -8,7 +8,7 @@ inputDict = {}
 
 for line in sys.stdin:
     # split the line
-    node_id, value = line.split('\t')
+    node_id, value = line.strip().split('\t')
 
     # add to dictionary
     # if empty
@@ -43,7 +43,7 @@ for key in inputDict:
     output = key + '\t'
     for entry in adjacency_row:
         output += str(entry) + ','
-    output = output[:-1]
+    output = output[:-1] + '\n'
 
     sys.stdout.write(output)
     
