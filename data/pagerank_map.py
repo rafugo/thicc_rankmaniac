@@ -26,9 +26,8 @@ for line in sys.stdin:
     else:
         neighbors = adjacency_row[2:]
         contribution = rank / float(len(neighbors))
-
-        for n in neighbors:
-            if contribution > 0.001:
+        if contribution > 0.001:
+            for n in neighbors:
                 sys.stdout.write(n + '\t' + str(contribution) + '\n')
 
     # lastly, output the adjacency row with a | in front
