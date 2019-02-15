@@ -28,7 +28,8 @@ for line in sys.stdin:
         contribution = rank / float(len(neighbors))
 
         for n in neighbors:
-            sys.stdout.write(n + '\t' + str(contribution) + '\n')
+            if contribution > 0.001:
+                sys.stdout.write(n + '\t' + str(contribution) + '\n')
 
     # lastly, output the adjacency row with a | in front
     adj_str = node_id + '\t|'
