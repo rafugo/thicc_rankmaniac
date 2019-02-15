@@ -8,7 +8,6 @@ from operator import itemgetter
 #
 
 
-change = 0
 
 rows = []
 rowsNumbers = []
@@ -81,16 +80,16 @@ for line in sys.stdin:
         rowsNumbers.append(rowI)
     # Catch the case where we get the artificial node
     else:
-        top50_old = value.split(",")
+        top50_old = value.strip('\n').split(",")
 
+converged = False
 
-top50_new = sorted(top50_new, key=itemgetter(1))[::-1]
-converged = True
-sys.stderr.write("length top50 new: " + str(len(top50_new)) + '\n')
-sys.stderr.write("length top50 old: " + str(len(top50_old)) + '\n')
-for i in range(len(top50_new)):
-    if top50_new[i][0] != top50_old[i]:
-        converged = False
+if top50_old != []:
+    top50_new = sorted(top50_new, key=itemgetter(1))[::-1]
+    converged = True
+    for i in range(len(top50_new)):
+        if top50_new[i][0] != top50_old[i]:
+            converged = False
 
 # once we read in all the output, determine if we stop
 if converged:
