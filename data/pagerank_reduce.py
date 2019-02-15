@@ -44,10 +44,13 @@ for line in sys.stdin:
         previousNode = node_id
 
     # check if it's an adjacency row
-    if value[0] == '|':
+    if value[0] == '|': 
         # get it as a list
         value = value[1:]
         adjacency_row = value.split(',')
+    
+    elif node_id == 'list':
+        sys.stdout.write(line)
 
     else:
         columnSum += float(value)

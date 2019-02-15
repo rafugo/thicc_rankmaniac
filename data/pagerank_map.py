@@ -8,34 +8,38 @@ for line in sys.stdin:
 
     # grab the node_id from the prefix
     node_id = prefix[7:]
-
-    # get the adjacency row
-    adjacency_row = value.strip().split(',')
-
-    # set the old rank to the new rank
-    adjacency_row[1] = adjacency_row[0]
-
-    # get the numeric value of the rank
-    rank = float(adjacency_row[0])
-
-    # if it has no neighbors, it contributes "1" to itself
-    if len(adjacency_row) == 2:
-        sys.stdout.write(node_id + '\t' + str(rank) + '\n')
-
-    # otherwise, emit the contribution to each neighbor
+    
+    if node_id == 'list':
+        adj_str = node_id + '\t' + value
+        
     else:
-        neighbors = adjacency_row[2:]
-        contribution = rank / float(len(neighbors))
-        if contribution > 0.001:
-            for n in neighbors:
-                sys.stdout.write(n + '\t' + str(contribution) + '\n')
+        # get the adjacency row
+        adjacency_row = value.strip().split(',')
 
-    # lastly, output the adjacency row with a | in front
-    adj_str = node_id + '\t|'
-    for i in adjacency_row:
-        adj_str += i + ','
+        # set the old rank to the new rank
+        adjacency_row[1] = adjacency_row[0]
 
-    adj_str = adj_str[:-1]
+        # get the numeric value of the rank
+        rank = float(adjacency_row[0])
+
+        # if it has no neighbors, it contributes "1" to itself
+        if len(adjacency_row) == 2:
+            sys.stdout.write(node_id + '\t' + str(rank) + '\n')
+
+        # otherwise, emit the contribution to each neighbor
+        else:
+            neighbors = adjacency_row[2:]
+            contribution = rank / float(len(neighbors))
+            if contribution > 0.001:
+                for n in neighbors:
+                    sys.stdout.write(n + '\t' + str(contribution) + '\n')
+
+        # lastly, output the adjacency row with a | in front
+        adj_str = node_id + '\t|'
+        for i in adjacency_row:
+            adj_str += i + ','
+
+        adj_str = adj_str[:-1]
 
     sys.stdout.write(adj_str + '\n')
 
