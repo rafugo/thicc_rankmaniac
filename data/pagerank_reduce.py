@@ -54,21 +54,23 @@ for line in sys.stdin:
 
     else:
         columnSum += float(value)
+        
+if node_id != 'list':
 
-# once done processing, multiply by alpha and add 1 - alpha
-columnSum = alpha * columnSum + (1 - alpha)
+    # once done processing, multiply by alpha and add 1 - alpha
+    columnSum = alpha * columnSum + (1 - alpha)
 
-# set as new rank (temporarily)
-adjacency_row[0] = str(columnSum)
+    # set as new rank (temporarily)
+    adjacency_row[0] = str(columnSum)
 
-output = previousNode + '\t'
+    output = previousNode + '\t'
 
-# create the output string
-for i in range(len(adjacency_row)):
-    output += adjacency_row[i] + ','
+    # create the output string
+    for i in range(len(adjacency_row)):
+        output += adjacency_row[i] + ','
 
-# chop off the comma
-output = output[:-1] + '\n'
+    # chop off the comma
+    output = output[:-1] + '\n'
 
-# emit the row
-sys.stdout.write(output)
+    # emit the row
+    sys.stdout.write(output)

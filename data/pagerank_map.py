@@ -39,9 +39,9 @@ for line in sys.stdin:
         for i in adjacency_row:
             adj_str += i + ','
 
-        adj_str = adj_str[:-1]
+        adj_str = adj_str[:-1] + '\n'
 
-    sys.stdout.write(adj_str + '\n')
+    sys.stdout.write(adj_str)
 
 
 

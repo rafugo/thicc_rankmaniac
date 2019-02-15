@@ -17,7 +17,6 @@ rowsNumbers = []
 top50_new = []
 top50_old = []
 mintuple_new = []
-mintuple_old = []
 
 for line in sys.stdin:
     adjacency_row = []
@@ -25,91 +24,86 @@ for line in sys.stdin:
     # split string input
     node_id, value = line.split("\t")
 
+    if node_id != "list":
+        # split into list
+        value_list = value.strip().split(',')
 
-    # split into list
-    value_list = value.strip().split(',')
+        # Initialize neighbors string
+        neighbors = ''
 
-    # make list of values floats
-    for i in range(len(value_list)):
-        if i <= 1:
-            adjacency_row.append(float(value_list[i]))
-        else:
-            adjacency_row.append(int(value_list[i]))
-    
+        # make list of values floats
+        for i in range(len(value_list)):
+            if i <= 1:
+                adjacency_row.append(float(value_list[i]))
+            else:
+                neighbors += ',' + str(value_list[i])
+        
 
-    # get ranks
-    new = adjacency_row[0]
-    old = adjacency_row[1]
+        # get ranks
+        new = adjacency_row[0]
+        old = adjacency_row[1]
 
-    # make row for sorting/finding top 20
-    rowI = [node_id, new, old]
+        # make row for sorting/finding top 20
+        rowI = [node_id, new]
 
 
-    if len(top50_new) < 50:
-        top50_new.append(rowI)
-        top50_old.append(rowI)
-
-        # initialize the mintuples
-        if mintuple_new == []:
-            mintuple_new = rowI
-            mintuple_old = rowI
-
-        else:
-            # set new mintuples if the new value is smaller
-            if mintuple_new[1] > rowI[1]:
-                mintuple_new = rowI
-            if mintuple_old[2] > rowI[2]:
-                mintuple_old = rowI
-
-    else:
-        if mintuple_new[1] < rowI[1]:
-            top50_new.remove(mintuple_new)
+        if len(top50_new) < 50:
             top50_new.append(rowI)
-            mintuple_new = rowI
 
-            # get new min
-            for j in top50_new:
-                if j[1] < mintuple_new[1]:
-                    mintuple_new = j
+            # initialize the mintuples
+            if mintuple_new == []:
+                mintuple_new = rowI
 
-        # do the same for the last top 20
-        if mintuple_old[2] < rowI[2]:
-            top50_old.remove(mintuple_old)
-            top50_old.append(rowI)
-            mintuple_old = rowI
+            else:
+                # set new mintuples if the new value is smaller
+                if mintuple_new[1] > rowI[1]:
+                    mintuple_new = rowI
 
-            # get new min
-            for j in top50_old:
-                if j[2] < mintuple_old[2]:
-                    mintuple_old = j
+        else:
+            if mintuple_new[1] < rowI[1]:
+                top50_new.remove(mintuple_new)
+                top50_new.append(rowI)
+                mintuple_new = rowI
+
+                # get new min
+                for j in top50_new:
+                    if j[1] < mintuple_new[1]:
+                        mintuple_new = j
 
 
-    neighbors = ''
-    for i in range(len(adjacency_row)):
-        if i > 1:
-            neighbors += ',' + str(adjacency_row[i])
+        # keep track in case we need to keep going
+        final_row = 'NodeId:' + node_id + '\t' + \
+                                str(new) + ',' + str(old) + neighbors
+                                
 
-    # keep track in case we need to keep going
-    final_row = 'NodeId:' + node_id + '\t' + \
-                            str(new) + ',' + str(old) + neighbors
-                            
-
-    # for printing
-    rows.append(final_row)
-    rowsNumbers.append(rowI)
+        # for printing
+        rows.append(final_row)
+        rowsNumbers.append(rowI)
+    # Catch the case where we get the artificial node
+    else:
+        top50_old = value.split(",")
 
 
 top50_new = sorted(top50_new, key=itemgetter(1))[::-1]
-top50_old = sorted(top50_old, key=itemgetter(2))[::-1]
+converged = True
+sys.stderr.write("length top50 new: " + str(len(top50_new)) + '\n')
+sys.stderr.write("length top50 old: " + str(len(top50_old)) + '\n')
+for i in range(len(top50_new)):
+    if top50_new[i][0] != top50_old[i]:
+        converged = False
 
 # once we read in all the output, determine if we stop
-if top50_old == top50_new:
-
+if converged:
     for i in range(20):
         sys.stdout.write("FinalRank:" + str(top50_new[i][1]) + '\t' + \
                             str(top50_new[i][0]) + '\n')
 
 else:
+    old_list = ""
+    for node in top50_new:
+        old_list += str(node[0]) + ","
+    old_list = old_list[:-1]
+    rows.append('NodeId:list' + '\t' + old_list)
     # output so we can restart
     for line in rows:
         sys.stdout.write(line + '\n')
